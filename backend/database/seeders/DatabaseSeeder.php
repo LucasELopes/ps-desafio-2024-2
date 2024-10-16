@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        
         User::factory(10)->create();
 
         $user = User::factory()->create([
@@ -20,5 +21,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         $user->assignPermission('admin');
+
+        $this->call([
+            BookSeeder::class
+        ]);
+
     }
 }

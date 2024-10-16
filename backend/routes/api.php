@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,5 +20,7 @@ Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
+
+Route::apiResource('/books', BookController::class);
 
 require __DIR__.'/auth.php';

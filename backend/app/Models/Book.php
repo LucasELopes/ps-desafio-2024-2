@@ -17,7 +17,12 @@ class Book extends Model
         'autor',
         'data_de_lancamento',
         'imagem',
-        'categoria',
+        'categoria_id',
         'quantidade'
     ];
+
+    public function categorie() {
+        return $this->belongsTo(Categorie::class, 'categoria_id', 'id');
+    }
+
 }

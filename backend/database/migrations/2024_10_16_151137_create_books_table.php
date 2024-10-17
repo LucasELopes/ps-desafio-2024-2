@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('autor', 50);
             $table->date('data_de_lancamento');
             $table->string('imagem');
-            $table->unsignedBigInteger('categoria');
+            $table->foreignUuid('categoria_id')->constrained('categories');
             $table->unsignedInteger('quantidade');
 
             $table->timestamps();

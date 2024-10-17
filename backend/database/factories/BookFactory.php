@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +20,9 @@ class BookFactory extends Factory
         return [
             'nome' => fake()->title(),
             'autor' => fake()->name(),
-            'data_de_lancamento' => fake()->date('Y-m-d', '1 year'),
-            'imagem' => fake()->title() . '.png',
-            'categoria' => fake()->numberBetween(0, 20),
+            'data_de_lancamento' => fake()->date('Y-m-d', 'now'),
+            'imagem' => fake()->title().'png',
+            'categoria_id' => Categorie::all()->random(),
             'quantidade' => fake()->numberBetween(0, 100),
         ];
     }

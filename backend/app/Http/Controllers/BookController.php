@@ -8,6 +8,7 @@ use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Storage;
 
 class BookController extends Controller
 {
@@ -21,7 +22,7 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $book = $this->book->with('categorie')->get();
         return response()->json(BookResource::collection($book), Response::HTTP_OK);
@@ -36,17 +37,13 @@ class BookController extends Controller
 
         if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
 
-            $nomeImagem = $request->imagem->hashName();
-            
-            $path = $request->imagem->storeAs(
-                'public/books/book_'. 
-                $request->nome."_" 
-                .md5($request->autor . $request->data_de_lancamento . strtotime('now'))
-                ."/".$nomeImagem
+            $path = $request->file('imagem')->store(
+                'books/book_'. 
+                    md5($request->nome . $request->autor . strtotime('now')), 
+                'public'
             );
 
             $data['imagem'] = $path;
-
         }
 
         $book = $this->book->create($data);
@@ -57,17 +54,14 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         try {
-
             $book = $this->book->findOrFail($id);
-            return response()->json(BookResource::make($book), Response::HTTP_OK);
+            return response()->json(BookResource::make($book), Response::HTTP_FOUND);
 
         }catch(\Throwable) {
-
-            return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);
-
+            return response()->json([], Response::HTTP_NOT_FOUND);
         }   
     }
 
@@ -77,17 +71,37 @@ class BookController extends Controller
     public function update(UpdateBookRequest $request, $id)
     {
         $data = $request->validated();
-        $book = $this->book->with('categorie')->findOrFail($id);
+        return $request->validated();
 
-        if($request->hasFile('imagem')) {
+        try {
+            $book = $this->book->with('categorie')->findOrFail($id);
+        } catch (\Throwable $th) {
+            return response()->json([], Response::HTTP_NOT_FOUND);
+        }
+
+        if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             try {
-                $imagem_name = explode('books/', $book['imagem']);
-                Storage::disk('public')->delete('books/');
+
+                $imagemName = explode('books/', $book->imagem);
+                Storage::disk('public')->delete('books/'.$imagemName[1]);
+
+                return $imagemName;
+
             } catch (\Throwable $th) {
-                //throw $th;
+            }finally{
+                $data['imagem'] = $request->file('imagem')->store(
+                    'books/book_'. 
+                        md5($request->nome . $request->autor . strtotime('now')), 
+                    'public'
+                );
             }
         }
 
+        // return dd($data);
+
+        $book->update($data);
+
+        return response()->json(BookResource::make($book), Response::HTTP_OK);
     }
 
     /**

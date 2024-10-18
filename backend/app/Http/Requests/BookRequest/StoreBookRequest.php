@@ -26,9 +26,8 @@ class StoreBookRequest extends FormRequest
             "autor" => 'required|string|min:3|max:50',
             "data_de_lancamento" => 'required|date|date_format:Y-m-d',
             "imagem" => 'required|file|mimes:jpg,png,jpeg',
-            // "imagem" => 'required|string',
             "categoria_id" => 'required|uuid|exists:categories,id',
-            "quantidade" => 'required|integer',
+            "quantidade" => 'required|integer|min:0'
         ];
     }
 

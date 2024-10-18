@@ -14,8 +14,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::apiResource('/books', BookController::class);
-// Route::get('/books', [BookController::class, 'index']);
-// Route::post('/books', [BookController::class, 'store']);
 
 Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
     Route::apiResource('/users', UserController::class);

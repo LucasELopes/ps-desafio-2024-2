@@ -2,65 +2,81 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategorieRequest;
-use App\Http\Requests\UpdateCategorieRequest;
+use App\Http\Requests\CategorieRequest\StoreCategorieRequest;
+use App\Http\Requests\CategorieRequest\UpdateCategorieRequest;
+use App\Http\Resources\CategorieResource;
 use App\Models\Categorie;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class CategorieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+
+    protected $categorie;
+
+    public function __construct(Categorie $categorie) {
+        $this->categorie = $categorie;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $categories = $this->categorie->orderBy("nome", "asc")->get();
+
+        return response()->json(CategorieResource::collection($categories), Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategorieRequest $request)
+    public function store(StoreCategorieRequest $request): JsonResponse
     {
-        //
+        $data = $request->validated();
+
+        $catogorie = $this->categorie->create($data);
+
+        return response()->json(CategorieResource::make($catogorie), Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categorie $categorie)
+    public function show($id): JsonResponse
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categorie $categorie)
-    {
-        //
+        try {
+            $categorie = $this->categorie->findOrFail($id);
+            return response()->json($categorie, Response::HTTP_OK);
+
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), Response::HTTP_NOT_FOUND);
+        }
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategorieRequest $request, Categorie $categorie)
+    public function update(UpdateCategorieRequest $request, $id): JsonResponse
     {
-        //
+        $data = $request->validated();
+        $categorie = $this->categorie->findOrFail($id);
+
+        $categorie->update($data);
+
+        return response()->json(CategorieResource::make($categorie), Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy($id)
     {
-        //
+        $categorie = $this->categorie->findOrFail($id);
+        $categorie->delete();
+
+        return response()->json(CategorieResource::make($categorie), Response::HTTP_OK);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\BookRequest\StoreBookRequest;
 use App\Http\Requests\BookRequest\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Storage;
@@ -60,8 +61,8 @@ class BookController extends Controller
             $book = $this->book->findOrFail($id);
             return response()->json(BookResource::make($book), Response::HTTP_FOUND);
 
-        }catch(\Throwable) {
-            return response()->json([], Response::HTTP_NOT_FOUND);
+        }catch(\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], Response::HTTP_NOT_FOUND);
         }   
     }
 
@@ -69,46 +70,57 @@ class BookController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateBookRequest $request, $id)
-    {
+    {   
         $data = $request->validated();
-        return $request->validated();
-
-        try {
-            $book = $this->book->with('categorie')->findOrFail($id);
-        } catch (\Throwable $th) {
-            return response()->json([], Response::HTTP_NOT_FOUND);
-        }
+        
+        $book = $this->book->with('categorie')->findOrFail($id);
 
         if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
-            try {
+            try { //Caso a imagem exista no storage exclua o respectivo arquivo.
 
                 $imagemName = explode('books/', $book->imagem);
-                Storage::disk('public')->delete('books/'.$imagemName[1]);
 
-                return $imagemName;
+                Storage::disk('public')->delete('books/'.$imagemName[1]);
 
             } catch (\Throwable $th) {
             }finally{
-                $data['imagem'] = $request->file('imagem')->store(
-                    'books/book_'. 
-                        md5($request->nome . $request->autor . strtotime('now')), 
-                    'public'
-                );
+                try { // Atualiza o arquivo deletado 
+
+                    $imagemName = explode('/', $book->imagem);
+                    
+                    // $imagemName[1] === Nome da respectiva pasta do arquivo que será atualizado
+                    $data['imagem'] = $request->file('imagem')->store(
+                        'books/'. $imagemName[1],
+                        'public'
+                    );
+                    
+                } catch (\Throwable $th) {
+                    // Caso o campo da imagem no banco, mesmo sendo um campo obrigatório ao criar o livro, esteja vazio
+                    // salva a mesma no storage.                    
+
+                    $data['imagem'] = $request->file('imagem')->store(
+                        'books/book_'. 
+                            md5($request->nome . $request->autor . strtotime('now')), 
+                        'public'
+                    );
+                }
             }
         }
-
-        // return dd($data);
-
+    
         $book->update($data);
+        $book->refresh();
 
         return response()->json(BookResource::make($book), Response::HTTP_OK);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //
+            $book = $this->book->findOrFail($id);
+            $book->delete();
+            return response()->json(BookResource::make($book), Response::HTTP_OK);
     }
 }

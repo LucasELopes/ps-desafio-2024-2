@@ -17,6 +17,7 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
+        
         return [
             'nome' => fake()->title(),
             'autor' => fake()->name(),
@@ -25,5 +26,6 @@ class BookFactory extends Factory
             'categoria_id' => Categorie::all()->random(),
             'quantidade' => fake()->numberBetween(0, 100),
         ];
+
     }
 }

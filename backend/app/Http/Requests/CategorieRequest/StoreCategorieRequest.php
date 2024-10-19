@@ -11,7 +11,7 @@ class StoreCategorieRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreCategorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nome' => 'required|unique:categories,nome|min:1|max:50',
         ];
     }
 }

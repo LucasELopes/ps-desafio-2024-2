@@ -29,8 +29,8 @@ class Book extends Model
     protected static function booted() {
         self::deleted(function (Book $book){
             try {
-                $imagemNome = explode('books/', $book['imagem']);
-                Storage::disk('public')->delete('books/'.$imagemNome[1]);
+                $imagemNome = explode('/', $book['imagem']);
+                Storage::disk('public')->deleteDirectory('books/'.$imagemNome[1]);
             } catch (\Throwable $th) {
             }
         });

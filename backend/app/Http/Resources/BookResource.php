@@ -21,8 +21,8 @@ class BookResource extends JsonResource
             'data_de_lancamento' => $this->data_de_lancamento,
             'imagem' => $this->imagem,
             'categoria' => [
-                'id' => $this->categorie->id,
-                'nome' => $this->categorie->nome,
+                'id' => $this->category->id,
+                'nome' => $this->category->nome,
             ],
             'quantidade' => $this->quantidade
         ];

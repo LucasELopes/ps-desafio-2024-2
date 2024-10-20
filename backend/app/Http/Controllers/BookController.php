@@ -25,7 +25,7 @@ class BookController extends Controller
      */
     public function index(): JsonResponse
     {
-        $book = $this->book->with('categorie')->get();
+        $book = $this->book->with('category')->get();
         return response()->json(BookResource::collection($book), Response::HTTP_OK);
     }
     
@@ -73,7 +73,7 @@ class BookController extends Controller
     {   
         $data = $request->validated();
         
-        $book = $this->book->with('categorie')->findOrFail($id);
+        $book = $this->book->with('category')->findOrFail($id);
 
         if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             try { //Caso a imagem exista no storage exclua o respectivo arquivo.

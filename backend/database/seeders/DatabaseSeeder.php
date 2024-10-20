@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $user->assignPermission('admin');
 
         $this->call([
-            CategorieSeeder::class,
+            CategorySeeder::class,
             BookSeeder::class
         ]);
 

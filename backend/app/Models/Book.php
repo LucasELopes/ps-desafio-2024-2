@@ -22,8 +22,8 @@ class Book extends Model
         'quantidade'
     ];
 
-    public function categorie() {
-        return $this->belongsTo(Categorie::class, 'categoria_id', 'id');
+    public function category() {
+        return $this->belongsTo(Category::class, 'categoria_id', 'id');
     }
 
     protected static function booted() {

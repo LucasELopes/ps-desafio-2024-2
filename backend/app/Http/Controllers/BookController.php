@@ -23,9 +23,9 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index()
     {
-        $book = $this->book->with('category')->get();
+        $book = $this->book->with('categories')->get();
         return response()->json(BookResource::collection($book), Response::HTTP_OK);
     }
     
@@ -45,9 +45,11 @@ class BookController extends Controller
             );
 
             $data['imagem'] = $path;
-        }
 
+        }
+        
         $book = $this->book->create($data);
+        $book 
 
         return response()->json(BookResource::make($book), Response::HTTP_CREATED);
     }

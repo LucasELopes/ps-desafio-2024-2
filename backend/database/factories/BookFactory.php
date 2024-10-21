@@ -23,7 +23,7 @@ class BookFactory extends Factory
             'autor' => fake()->name(),
             'data_de_lancamento' => fake()->date('Y-m-d', 'now'),
             'imagem' => fake()->title().'png',
-            'categoria_id' => Category::all()->random(),
+            // 'categoria_id' => Category::all()->random(),
             'quantidade' => fake()->numberBetween(0, 100),
         ];
 

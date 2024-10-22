@@ -8,23 +8,25 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+Route::get('/books', [BookController::class, 'index']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', function (Request $request) {
         return response()->json(Auth::user(), Response::HTTP_OK);
     });
 });
 
-Route::apiResource('/books', BookController::class);
-
-Route::get('/books/{id}/{quantity}', [BookController::class, 'buyBook'])
+Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
+    
+    Route::apiResource('/books', BookController::class)->except('index');
+    
+    Route::get('/books/{id}/{quantity}', [BookController::class, 'buyBook'])
     ->where('quantity', '[0-9]+');
 
-Route::apiResource('/categories', CategoryController::class);
+    Route::apiResource('/categories', CategoryController::class);
 
-Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
     Route::apiResource('/users', UserController::class);
 });
-
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];

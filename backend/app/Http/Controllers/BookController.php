@@ -133,6 +133,7 @@ class BookController extends Controller
         $book->categories()->detach();
 
         return response()->json('Deleted', Response::HTTP_OK);
-        
+
     }
+
 }

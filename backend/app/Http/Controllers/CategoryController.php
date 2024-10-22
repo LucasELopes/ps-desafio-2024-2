@@ -23,9 +23,9 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $categorys = $this->category->orderBy("nome", "asc")->get();
+        $categories = $this->category->orderBy("nome", "asc")->get();
 
-        return response()->json(CategoryResource::collection($categorys), Response::HTTP_OK);
+        return response()->json(CategoryResource::collection($categories), Response::HTTP_OK);
     }
 
     /**
@@ -35,9 +35,9 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
 
-        $catogorie = $this->category->create($data);
+        $catogory = $this->category->create($data);
 
-        return response()->json(CategoryResource::make($catogorie), Response::HTTP_CREATED);
+        return response()->json(CategoryResource::make($catogory), Response::HTTP_CREATED);
     }
 
     /**
@@ -46,13 +46,8 @@ class CategoryController extends Controller
     public function show($id): JsonResponse
     {
 
-        try {
-            $category = $this->category->findOrFail($id);
-            return response()->json($category, Response::HTTP_OK);
-
-        } catch (\Throwable $th) {
-            return response()->json($th->getMessage(), Response::HTTP_NOT_FOUND);
-        }
+        $category = $this->category->findOrFail($id);
+        return response()->json($category, Response::HTTP_OK);
 
     }
 
@@ -62,6 +57,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, $id): JsonResponse
     {
         $data = $request->validated();
+
         $category = $this->category->findOrFail($id);
 
         $category->update($data);
@@ -76,7 +72,7 @@ class CategoryController extends Controller
     {
         $category = $this->category->findOrFail($id);
         $category->delete();
-
+        $category->books()->detach();
         return response()->json(CategoryResource::make($category), Response::HTTP_OK);
     }
 }

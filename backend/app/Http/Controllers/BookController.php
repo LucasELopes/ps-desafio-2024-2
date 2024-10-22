@@ -119,7 +119,6 @@ class BookController extends Controller
         $book->refresh();
 
         return response()->json(BookResource::make($book), Response::HTTP_OK);
-
     }
 
     /**
@@ -132,8 +131,24 @@ class BookController extends Controller
         $book->delete();
         $book->categories()->detach();
 
-        return response()->json('Deleted', Response::HTTP_OK);
+        return response()->json(['message' =>  'Deleted'], Response::HTTP_OK);
+    }
 
+    public function buyBook($id, $quantity) {
+        $book = $this->book->findOrFail($id);
+        if($book->quantidade > 0) {
+            
+            if($book->quantidade - $quantity < 0) {
+                return response()->json(['message' => 'Quantity not available'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            
+            $book->update([
+                'quantidade' => $book->quantidade - $quantity
+            ]);
+
+            return response()->json(BookResource::make($book), Response::HTTP_OK);
+        }
+        return response()->json(['message' => 'Book not available'], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
 }

@@ -15,6 +15,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::apiResource('/books', BookController::class);
+
+Route::get('/books/{id}/{quantity}', [BookController::class, 'buyBook'])
+    ->where('quantity', '[0-9]+');
+
 Route::apiResource('/categories', CategoryController::class);
 
 Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {

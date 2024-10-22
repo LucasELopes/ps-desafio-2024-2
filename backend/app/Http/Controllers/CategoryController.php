@@ -75,4 +75,5 @@ class CategoryController extends Controller
         $category->books()->detach();
         return response()->json(CategoryResource::make($category), Response::HTTP_OK);
     }
+
 }

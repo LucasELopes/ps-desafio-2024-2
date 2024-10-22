@@ -23,9 +23,9 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index()
     {
-        $book = $this->book->with('category')->get();
+        $book = $this->book->all();
         return response()->json(BookResource::collection($book), Response::HTTP_OK);
     }
     
@@ -47,7 +47,15 @@ class BookController extends Controller
             $data['imagem'] = $path;
         }
 
-        $book = $this->book->create($data);
+        $book = $this->book->create([
+            'nome' => $data['nome'],
+            'autor' => $data['autor'],
+            'data_de_lancamento' => $data['data_de_lancamento'],
+            'imagem' => $data['imagem'],
+            'quantidade' => $data['quantidade'],
+        ]);
+
+        $book->categories()->sync($data['category_id']);
 
         return response()->json(BookResource::make($book), Response::HTTP_CREATED);
     }
@@ -57,13 +65,8 @@ class BookController extends Controller
      */
     public function show($id): JsonResponse
     {
-        try {
-            $book = $this->book->findOrFail($id);
-            return response()->json(BookResource::make($book), Response::HTTP_FOUND);
-
-        }catch(\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], Response::HTTP_NOT_FOUND);
-        }   
+        $book = $this->book->findOrFail($id);
+        return response()->json(BookResource::make($book), Response::HTTP_FOUND);
     }
 
     /**
@@ -73,7 +76,7 @@ class BookController extends Controller
     {   
         $data = $request->validated();
         
-        $book = $this->book->with('category')->findOrFail($id);
+        $book = $this->book->findOrFail($id);
 
         if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             try { //Caso a imagem exista no storage exclua o respectivo arquivo.
@@ -108,6 +111,11 @@ class BookController extends Controller
         }
     
         $book->update($data);
+
+        if(key_exists('category_id', $data)) {
+            $book->categories()->sync($data['category_id']);
+        }
+
         $book->refresh();
 
         return response()->json(BookResource::make($book), Response::HTTP_OK);
@@ -119,8 +127,12 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-            $book = $this->book->findOrFail($id);
-            $book->delete();
-            return response()->json(BookResource::make($book), Response::HTTP_OK);
+
+        $book = $this->book->findOrFail($id);
+        $book->delete();
+        $book->categories()->detach();
+
+        return response()->json('Deleted', Response::HTTP_OK);
+        
     }
 }

@@ -27,7 +27,8 @@ class UpdateBookRequest extends FormRequest
             "autor" => 'sometimes|string|min:3|max:50',
             "data_de_lancamento" => 'sometimes|date|date_format:Y-m-d',
             "imagem" => 'sometimes|file|mimes:jpg,png,jpeg',
-            "categoria_id" => 'sometimes|uuid|exists:categories,id',
+            "category_id" => 'sometimes|array',
+            "category_id.*" => 'uuid|exists:categories,id',
             "quantidade" => 'sometimes|integer|min:0'
         ];
 

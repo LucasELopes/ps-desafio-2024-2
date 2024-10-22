@@ -21,14 +21,17 @@ class StoreBookRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             "nome" => 'required|string|min:3|max:50',
             "autor" => 'required|string|min:3|max:50',
             "data_de_lancamento" => 'required|date|date_format:Y-m-d',
             "imagem" => 'required|file|mimes:jpg,png,jpeg',
-            "categoria_id" => 'required|uuid|exists:categories,id',
+            "category_id" => 'required|array',
+            "category_id.*" => 'uuid|exists:categories,id',
             "quantidade" => 'required|integer|min:0'
         ];
+        
     }
 
 }

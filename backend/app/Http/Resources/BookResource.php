@@ -13,17 +13,19 @@ class BookResource extends JsonResource
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
-    {
+    {   
         return [
             'id' => $this->id,
             'nome' => $this->nome,
             'autor' => $this->autor,
             'data_de_lancamento' => $this->data_de_lancamento,
             'imagem' => $this->imagem,
-            'categoria' => [
-                'id' => $this->category->id,
-                'nome' => $this->category->nome,
-            ],
+            'categorias' => $this->categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'nome' => $category->nome
+                ];
+            }),
             'quantidade' => $this->quantidade
         ];
     }

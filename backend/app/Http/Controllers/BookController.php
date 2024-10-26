@@ -36,23 +36,23 @@ class BookController extends Controller
     {
         $data = $request->validated();
 
-        if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
 
-            $path = $request->file('imagem')->store(
+            $path = $request->file('image')->store(
                 'books/book_'. 
                     md5($request->nome . $request->autor . strtotime('now')), 
                 'public'
             );
 
-            $data['imagem'] = $path;
+            $data['image'] = $path;
         }
 
         $book = $this->book->create([
-            'nome' => $data['nome'],
-            'autor' => $data['autor'],
-            'data_de_lancamento' => $data['data_de_lancamento'],
-            'imagem' => $data['imagem'],
-            'quantidade' => $data['quantidade'],
+            'name' => $data['name'],
+            'author' => $data['author'],
+            'release_date' => $data['release_date'],
+            'image' => $data['image'],
+            'quantity' => $data['quantity'],
         ]);
 
         $book->categories()->sync($data['category_id']);
@@ -78,22 +78,22 @@ class BookController extends Controller
         
         $book = $this->book->findOrFail($id);
 
-        if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
             try { //Caso a imagem exista no storage exclua o respectivo arquivo.
 
-                $imagemName = explode('books/', $book->imagem);
+                $imageName = explode('books/', $book->image);
 
-                Storage::disk('public')->delete('books/'.$imagemName[1]);
+                Storage::disk('public')->delete('books/'.$imageName[1]);
 
             } catch (\Throwable $th) {
             }finally{
                 try { // Atualiza o arquivo deletado 
 
-                    $imagemName = explode('/', $book->imagem);
+                    $imageName = explode('/', $book->image);
                     
-                    // $imagemName[1] === Nome da respectiva pasta do arquivo que será atualizado
-                    $data['imagem'] = $request->file('imagem')->store(
-                        'books/'. $imagemName[1],
+                    // $imageName[1] === Nome da respectiva pasta do arquivo que será atualizado
+                    $data['image'] = $request->file('image')->store(
+                        'books/'. $imageName[1],
                         'public'
                     );
                     
@@ -101,9 +101,9 @@ class BookController extends Controller
                     // Caso o campo da imagem no banco, mesmo sendo um campo obrigatório ao criar o livro, esteja vazio
                     // salva a mesma no storage.                    
 
-                    $data['imagem'] = $request->file('imagem')->store(
+                    $data['image'] = $request->file('image')->store(
                         'books/book_'. 
-                            md5($request->nome . $request->autor . strtotime('now')), 
+                            md5($request->name . $request->author . strtotime('now')), 
                         'public'
                     );
                 }

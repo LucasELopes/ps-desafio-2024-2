@@ -23,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $categories = $this->category->orderBy("nome", "asc")->get();
+        $categories = $this->category->orderBy("name", "asc")->get();
 
         return response()->json(CategoryResource::collection($categories), Response::HTTP_OK);
     }

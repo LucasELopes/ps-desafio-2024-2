@@ -23,13 +23,13 @@ class UpdateBookRequest extends FormRequest
     {
         
         return [
-            "nome" => 'sometimes|string|min:3|max:50',
-            "autor" => 'sometimes|string|min:3|max:50',
-            "data_de_lancamento" => 'sometimes|date|date_format:Y-m-d',
-            "imagem" => 'sometimes|file|mimes:jpg,png,jpeg',
+            "name" => 'sometimes|string|min:3|max:50',
+            "author" => 'sometimes|string|min:3|max:50',
+            "release_date" => 'sometimes|date|date_format:Y-m-d',
+            "image" => 'sometimes|file|mimes:jpg,png,jpeg',
             "category_id" => 'sometimes|array',
             "category_id.*" => 'uuid|exists:categories,id',
-            "quantidade" => 'sometimes|integer|min:0'
+            "quantity" => 'sometimes|integer|min:0'
         ];
 
     }

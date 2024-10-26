@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 class CategorySeeder extends Seeder
 {
 
-    private $categoriasLivros = [
+    private $categories = [
         'Ficção Científica',
         'Romance',
         'Fantasia',
@@ -37,8 +37,8 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        foreach($this->categoriasLivros as $categoria) {
-            Category::create(['nome' => $categoria]);
+        foreach($this->categories as $category) {
+            Category::create(['name' => $category]);
         }
     }
     

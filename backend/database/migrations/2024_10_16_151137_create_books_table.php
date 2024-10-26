@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->string('nome', 50);
-            $table->string('autor', 50);
-            $table->date('data_de_lancamento');
-            $table->string('imagem');
-            // $table->foreignUuid('categoria_id')->constrained('categories');
-            $table->unsignedInteger('quantidade');
+            $table->string('name', 50);
+            $table->string('author', 50);
+            $table->date('release_date');
+            $table->string('image');
+            $table->unsignedInteger('quantity');
 
             $table->timestamps();
         });

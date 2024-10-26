@@ -14,11 +14,11 @@ class Book extends Model
     protected $table = 'books';
 
     protected $fillable = [
-        'nome',
-        'autor',
-        'data_de_lancamento',
-        'imagem',
-        'quantidade',
+        'name',
+        'author',
+        'release_date',
+        'image',
+        'quantity',
     ];
 
     public function categories() {
@@ -28,8 +28,8 @@ class Book extends Model
     protected static function booted() {
         self::deleted(function (Book $book){
             try {
-                $imagemNome = explode('/', $book['imagem']);
-                Storage::disk('public')->deleteDirectory('books/'.$imagemNome[1]);
+                $imageName = explode('/', $book['image']);
+                Storage::disk('public')->deleteDirectory('books/'.$imageName[1]);
             } catch (\Throwable $th) {
             }
         });

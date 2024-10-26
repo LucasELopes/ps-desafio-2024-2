@@ -19,12 +19,11 @@ class BookFactory extends Factory
     {
         
         return [
-            'nome' => fake()->title(),
-            'autor' => fake()->name(),
-            'data_de_lancamento' => fake()->date('Y-m-d', 'now'),
-            'imagem' => fake()->title().'png',
-            // 'categoria_id' => Category::all()->random(),
-            'quantidade' => fake()->numberBetween(0, 100),
+            'name' => fake()->title(),
+            'author' => fake()->name(),
+            'release_date' => fake()->date('Y-m-d', 'now'),
+            'image' => fake()->title().'png',
+            'quantity' => fake()->numberBetween(0, 100),
         ];
 
     }

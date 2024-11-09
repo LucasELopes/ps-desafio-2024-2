@@ -23,13 +23,13 @@ class StoreBookRequest extends FormRequest
     {
 
         return [
-            "name" => 'required|string|min:3|max:50',
+            "title" => 'required|string|min:3|max:50',
             "author" => 'required|string|min:3|max:50',
             "release_date" => 'required|date|date_format:Y-m-d',
             "image" => 'required|file|mimes:jpg,png,jpeg',
             "category_id" => 'required|array',
             "category_id.*" => 'uuid|exists:categories,id',
-            "quantity" => 'required|integer|min:0'
+            "amount" => 'required|integer|min:0'
         ];
         
     }

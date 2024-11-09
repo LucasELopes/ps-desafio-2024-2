@@ -23,13 +23,13 @@ class UpdateBookRequest extends FormRequest
     {
         
         return [
-            "name" => 'sometimes|string|min:3|max:50',
+            "title" => 'sometimes|string|min:3|max:50',
             "author" => 'sometimes|string|min:3|max:50',
             "release_date" => 'sometimes|date|date_format:Y-m-d',
             "image" => 'sometimes|file|mimes:jpg,png,jpeg',
             "category_id" => 'sometimes|array',
             "category_id.*" => 'uuid|exists:categories,id',
-            "quantity" => 'sometimes|integer|min:0'
+            "amount" => 'sometimes|integer|min:0'
         ];
 
     }

@@ -48,11 +48,11 @@ class BookController extends Controller
         }
 
         $book = $this->book->create([
-            'name' => $data['name'],
+            'title' => $data['title'],
             'author' => $data['author'],
             'release_date' => $data['release_date'],
             'image' => $data['image'],
-            'quantity' => $data['quantity'],
+            'amount' => $data['amount'],
         ]);
 
         $book->categories()->sync($data['category_id']);

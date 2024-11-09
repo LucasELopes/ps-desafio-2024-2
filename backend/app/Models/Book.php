@@ -14,11 +14,11 @@ class Book extends Model
     protected $table = 'books';
 
     protected $fillable = [
-        'name',
+        'title',
         'author',
         'release_date',
         'image',
-        'quantity',
+        'amount',
     ];
 
     public function categories() {

@@ -34,8 +34,99 @@ export default function FormFieldsBook({
     <>
       <FormFieldsGroup>
         {book && <Input defaultValue={book.id} type="text" name="id" hidden />}
-        {/* inserir campos do formulário */}
+        <FormField>
+          <Label htmlFor="title" required={!book}>
+            Título
+          </Label>
+          <Input
+            name="title"
+            id="title"
+            placeholder="Insira o título do livro"
+            defaultValue={book?.title}
+            disabled={pending}
+            readOnly={readOnly}
+            error={error?.errors?.title}
+          />
+        </FormField>
+        <FormField>
+          <Label htmlFor="author" required={!book}>
+            Autor
+          </Label>
+          <Input
+            name="author"
+            id="author"
+            placeholder="Insira o autor do livro"
+            defaultValue={book?.author}
+            disabled={pending}
+            readOnly={readOnly}
+            error={error?.errors?.author}
+          />
+        </FormField>
+        <FormField>
+          <Label htmlFor="title" required={!book}>
+            Lançamento
+          </Label>
+          <Input
+            type='date'
+            name="release_date"
+            id="release_date"
+            placeholder="Data de lançamento"
+            defaultValue={book?.release_date}
+            disabled={pending}
+            readOnly={readOnly}
+            error={error?.errors?.release_date}
+          />
+        </FormField>
+        <FormField>
+          <Label htmlFor="categories" required={!book}>
+            Categoria(s)
+          </Label>
+          <Input
+            name="category_id[]"
+            id="categories"
+            placeholder="Insira a(s) categoria(s) do livro"
+            defaultValue={book?.categories.map((e) => (e.name + ','))}
+            disabled={pending}
+            readOnly={readOnly}
+            error={error?.errors?.categories}
+          />
+        </FormField>
+        <FormField>
+          <Label htmlFor="amount" required={!book}>
+            Quantidade
+          </Label>
+          <Input
+            type='number'
+            name="amount"
+            id="amount"
+            placeholder="Insira a quantidade em estoque"
+            defaultValue={book?.amount}
+            disabled={pending}
+            readOnly={readOnly}
+            error={error?.errors?.amount}
+          />
+        </FormField>
+        <FormField>
+          <Label htmlFor="image" hidden={readOnly && !book?.image}>
+            Imagem
+          </Label>
+          <Input
+            name="image"
+            id="image"
+            type="file"
+            accept="image/*"
+            disabled={pending}
+            hidden={readOnly}
+            onChange={(e) => handleImageChange(e, setUpdateImage)}
+            error={error?.errors?.image}
+          />
+          <ImageForm
+            className="aspect-square size-40"
+            src={updateImage || book?.image}
+          />
+        </FormField>
       </FormFieldsGroup>
+      
       <DialogFooter className={cn({ hidden: readOnly })}>
         <Button type="submit" pending={pending}>
           Salvar

@@ -19,7 +19,7 @@ import { DialogInformationBook } from './dialog-information-book'
 import { DialogCreateBook } from './dialog-create-book'
 
 export default async function ListBooks() {
-  const { response } = null // requisicao para api
+  const { response } =  await api<bookType[]>('GET', '/books') // requisicao para api
 
   if (!response) {
     return (
@@ -49,7 +49,7 @@ export default async function ListBooks() {
               <TableHead>Titulo</TableHead>
               <TableHead>Categoria</TableHead>
               <TableHead>Quantidade</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
+              <TableHead className="text-center">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -59,8 +59,11 @@ export default async function ListBooks() {
                   <TabbleCellImage src={book.image} />
                 </TableCell>
                 <TableCell>{book.title}</TableCell>
+                <TableCell>{book.categories.map((e) => (
+                  e.name + ','
+                ))}
+                </TableCell>
                 <TableCell>{book.amount}</TableCell>
-                <TableCell>{book.category.name}</TableCell>
                 <TableCell className="flex justify-end gap-2">
                   <DialogInformationBook id={book.id}>
                     <Button variant="default-inverse" size="icon">

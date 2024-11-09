@@ -44,7 +44,7 @@ class BookController extends Controller
                 'public'
             );
 
-            $data['image'] = $path;
+            $data['image'] = url('storage/', $path);
         }
 
         $book = $this->book->create([
@@ -92,20 +92,20 @@ class BookController extends Controller
                     $imageName = explode('/', $book->image);
                     
                     // $imageName[1] === Nome da respectiva pasta do arquivo que será atualizado
-                    $data['image'] = $request->file('image')->store(
+                    $data['image'] = url('storage/', $request->file('image')->store(
                         'books/'. $imageName[1],
                         'public'
-                    );
+                    ));
                     
                 } catch (\Throwable $th) {
                     // Caso o campo da imagem no banco, mesmo sendo um campo obrigatório ao criar o livro, esteja vazio
                     // salva a mesma no storage.                    
 
-                    $data['image'] = $request->file('image')->store(
+                    $data['image'] = url('storage', $request->file('image')->store(
                         'books/book_'. 
                             md5($request->name . $request->author . strtotime('now')), 
                         'public'
-                    );
+                    ));
                 }
             }
         }

@@ -19,7 +19,7 @@
     color: rgb(72, 114, 177);
     text-wrap: nowrap;
     position: absolute;
-    top: -12px;
+    top: -18px;
     background-color: rgb(243, 207, 152);
     padding: 1px 4px;
     font-weight: 600;
@@ -34,6 +34,13 @@
     position: absolute;
     top: -10px;
     right: -2px;
+
+    transition: all linear 100ms;
+}
+
+.closeModal:hover  {
+    filter: invert(1);
+    scale: 1.05;
 }
 
 .containerModal dialog {
@@ -58,6 +65,7 @@
 .imageModal img {
     width: 100%;
     height: 100%;
+    border-radius: 0.8rem;
 }
 
 .titleModal, .authorModal, .releaseModal {
@@ -74,12 +82,11 @@
 }
 
 .idModal {
-    font-size: 0.8rem;
-    position: absolute;
-    bottom: -8px;
-    left: 45px;
-    background: white;
-    padding: 0 2px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 0.65rem;
+
     font-weight: 500;
     border-radius: 0  0 0.7rem 0.7rem;
     color: rgb(43, 108, 205);
@@ -104,9 +111,10 @@
 
     .idModal {
         font-size: 0.8rem;
-        position: absolute;
+        /* position: absolute;
         bottom: -8px;
-        left: 21%;
+        left: 21%; */
+        font-size: 0.75rem;
         background: white;
         padding: 0 2px;
         font-weight: 500;

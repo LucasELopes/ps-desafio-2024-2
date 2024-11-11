@@ -3,6 +3,9 @@
     width: 100%;
     background-color: rgb(119, 161, 227);
     height: 65px;
+
+    position: fixed;
+    z-index: 90;
 }
 
 

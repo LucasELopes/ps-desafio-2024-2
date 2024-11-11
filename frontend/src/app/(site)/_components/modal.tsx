@@ -21,12 +21,12 @@ const Modal = ({book}: ModalProps) => {
                 <div className={style.imageModal}>
                     <img src={book?.image} alt="image"/>
                 </div>
+                <div>
+                    <span className={style.idModal}>
+                        {" " + book?.id}
+                    </span>
+                </div>
                 <div className={style.infos}>
-                    <div>
-                        <span className={style.idModal}>
-                            {" " + book?.id}
-                        </span>
-                    </div>
                     <div>
                         <div className={style.titleModal}>
                             Título: 

@@ -26,6 +26,7 @@
     text-wrap: nowrap;
     position: absolute;
     top: -12px;
+    left: -5px;
     background-color: rgb(243, 207, 152);
     padding: 1px 4px;
     font-weight: 600;

@@ -26,7 +26,8 @@
 .values {
     display: flex;
     justify-content: space-evenly;
-
+    gap: 15px;
+    text-wrap: nowrap;
     transition: all linear 300ms;
 }
 
@@ -67,6 +68,10 @@
 
         width: 10%;
         height: 80vh;
+    }
+
+    .sideBar::-webkit-scrollbar {
+        width: 10px;
     }
 
     .values {

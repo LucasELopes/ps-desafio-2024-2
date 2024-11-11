@@ -42,12 +42,10 @@ export default function Home() {
 
     const showBook = async (name: string|number) => {
       const {response} = await api<bookType[]>('GET', `/books/${name}`)
-
       
       if(response) {
         setBooks(response)
       }
-
       console.log(books)
     }
 
@@ -57,11 +55,9 @@ export default function Home() {
     }
     else if(!context.idSearchBook && context.idCategory) {
       requestBookInCategory().then(() => setLoading(false))
-      // alert('2')
     }
     else if(context.idSearchBook && !context.idCategory) {
       showBook(context.idSearchBook).then(() => setLoading(false))
-      // alert("3")
     }
 
     // alert(context?.idSearchBook)

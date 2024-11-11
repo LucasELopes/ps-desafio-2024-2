@@ -15,7 +15,9 @@ const SideBar = ({title, categories}: sideBarProps) => {
     return (
         <div className={style.sideBar}>
             <div className={style.title}>
-                {title}
+                <a href="/">
+                    {title}
+                </a>
             </div>
             <div className={style.values}>
                 {categories && categories.map((category) => (

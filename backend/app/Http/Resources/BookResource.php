@@ -26,7 +26,7 @@ class BookResource extends JsonResource
                     'name' => $category->name
                 ];
             }),
-            'amount' => $this->amount
+            'amount' => $this->amount,
         ];
     }
 }

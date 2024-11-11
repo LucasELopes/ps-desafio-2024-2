@@ -1,5 +1,6 @@
 .listCard {
     width: 100%;
+    margin-top: 64px;
 }
 
 .listCardChild {
@@ -16,6 +17,7 @@
         grid-template-columns: repeat(3, 20%);
     }
 }
+
 
 @media all and (min-width:1020px) {
     .listCard {

@@ -25,8 +25,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $book = $this->book->all();
+        $book = $this->book->paginate(15);
         return response()->json(BookResource::collection($book), Response::HTTP_OK);
+        // return response()->json($book, Response::HTTP_OK);
     }
     
     /**
@@ -65,15 +66,20 @@ class BookController extends Controller
      */
     public function show($id): JsonResponse
     {
+
         $book = $this->book->where('id', $id)
-            ->orWhere('title','LIKE' ,"{$id}%")
+            ->orWhere('title',$id)
             ->get();
+
+        // $book = $this->book->find($id);
 
         if(!$book) {
             return response()->json(null, Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json(BookResource::collection($book), Response::HTTP_FOUND);
+        return response()->json(BookResource::collection($book)->first(), Response::HTTP_FOUND);        
+        
+        // return response()->json($book, Response::HTTP_FOUND);        
     }
 
     /**

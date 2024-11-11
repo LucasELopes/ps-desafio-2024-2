@@ -14,11 +14,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-Route::apiResource('/books', BookController::class);
+Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('books/category/{id}', [CategoryController::class, 'categoryBooks']);
-Route::apiResource('/categories', CategoryController::class);
+Route::apiResource('/books', BookController::class);
+
 
 Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
+    Route::apiResource('/categories', CategoryController::class)->except(['index']);
     Route::apiResource('/users', UserController::class);
 });
 

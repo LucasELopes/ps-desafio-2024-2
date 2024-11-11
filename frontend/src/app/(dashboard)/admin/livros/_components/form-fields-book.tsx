@@ -43,8 +43,8 @@ export default function FormFieldsBook({
     book?.image
   )
 
-  const [selectCategories, setSelectCategories] = useState<string[] | undefined>(
-    book?.categories.map((e) => e.name)
+  const [selectCategories, setSelectCategories] = useState<string | undefined>(
+    book?.categories.pop()?.name
   )
 
   return (
@@ -96,7 +96,7 @@ export default function FormFieldsBook({
         </FormField>
         <FormField>
           <Label htmlFor="categories" required={!book}>
-            Categoria(s)
+            Categoria
           </Label>
           <Select
             disabled={pending || readOnly}

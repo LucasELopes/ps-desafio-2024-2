@@ -17,9 +17,9 @@ export async function updateBook(form: FormData) {
   const res = await api('POST', `/books/${form.get('id')}`, {
     data: form,
   })
-
+  console.log(res)
   if (!res.error) {
-    revalidatePath('/admin/usuarios')
+    revalidatePath('/admin/livros')
   }
 
   return JSON.stringify(res)

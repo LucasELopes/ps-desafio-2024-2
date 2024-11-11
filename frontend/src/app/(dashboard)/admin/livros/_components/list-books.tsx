@@ -68,12 +68,12 @@ export default async function ListBooks() {
                 </TableCell>
                 <TableCell>{book.amount}</TableCell>
                 <TableCell className="flex justify-end gap-2">
-                  <DialogInformationBook id={book.id}>
+                  <DialogInformationBook id={book.id} bookProps={book}>
                     <Button variant="default-inverse" size="icon">
-                      <LuInfo />
+                      <LuInfo/>
                     </Button>
                   </DialogInformationBook>
-                  <DialogUpdateBook id={book.id} categories={categories}>
+                  <DialogUpdateBook id={book.id} categories={categories} bookProps={book}>
                     <Button variant="secondary-inverse" size="icon">
                       <LuPen />
                     </Button>

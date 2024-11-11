@@ -18,12 +18,14 @@ import { title } from 'process'
 
 interface DialogInformationBookProps {
   id: string
+  bookProps: bookType
   children: React.ReactNode
   isInformation?: boolean
 }
 
 export function DialogInformationBook({
   id,
+  bookProps,
   children,
 }: DialogInformationBookProps) {
   const [book, setBook] = useState<bookType | undefined>()
@@ -34,7 +36,7 @@ export function DialogInformationBook({
   useEffect(() => {
     const requestBook = async () => {
       const { response } = await api<bookType>('GET', `/books/${id}`)
-      console.log($id)
+      
       if (response) {
         return response
       } else {
@@ -60,10 +62,10 @@ export function DialogInformationBook({
     }
 
     const requestData = async () => {
-      const bookRequest = requestBook()
+      // const bookRequest = requestBook()
       const categoriesRequest = requestCategories()
 
-      setBook(await bookRequest)
+      setBook(await bookProps)
       setCategories(await categoriesRequest)
     }
 

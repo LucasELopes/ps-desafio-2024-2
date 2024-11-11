@@ -19,11 +19,12 @@ import { categoryType } from '@/types/category'
 
 interface DialogUpdateBookProps {
   id: string
+  bookProps: bookType
   children: React.ReactNode
   categories?: categoryType[]
 }
 
-export function DialogUpdateBook({ id, children }: DialogUpdateBookProps) {
+export function DialogUpdateBook({ id, children, bookProps }: DialogUpdateBookProps) {
   const [book, setBook] = useState<bookType | undefined>()
   const [categories, setCategories] = useState<categoryType[] | undefined>()
   const [open, setOpen] = useState<boolean>()
@@ -59,10 +60,10 @@ export function DialogUpdateBook({ id, children }: DialogUpdateBookProps) {
     }
 
     const requestData = async () => {
-      const bookRequest = requestBook()
+      // const bookRequest = requestBook()
       const categoriesRequest = requestCategories()
 
-      setBook(await bookRequest)
+      setBook(await bookProps)
       setCategories(await categoriesRequest)
     }
 

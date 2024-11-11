@@ -25,9 +25,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $book = $this->book->paginate(15);
+        $book = $this->book->all();
         return response()->json(BookResource::collection($book), Response::HTTP_OK);
-        // return response()->json($book, Response::HTTP_OK);
     }
     
     /**
@@ -59,6 +58,18 @@ class BookController extends Controller
         $book->categories()->sync($data['category_id']);
 
         return response()->json(BookResource::make($book), Response::HTTP_CREATED);
+    }
+
+    public function buyBook($id) {
+        $book = $this->book->findOrFail($id);
+
+        if($book->amount - 1 >= 0) {
+            $book->amount = $book->amount - 1;
+            
+            $book->update();
+            return response()->json(['message' => 'done', Response::HTTP_OK]);
+        }        
+        return response()->json(['message' => 'failed', Response::HTTP_BAD_REQUEST]);
     }
 
     /**

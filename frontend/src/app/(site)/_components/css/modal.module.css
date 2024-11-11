@@ -92,6 +92,26 @@
     color: rgb(43, 108, 205);
 }
 
+.buyModalContainer {
+    display: flex;
+    justify-content: end;
+    margin-top: 5px;
+
+}
+
+.buyModalContainer button {
+    background-color: #a0e984;
+    padding: 5px 10px;
+    border-radius: 0.7rem;
+
+    transition: all linear 200ms;
+}
+
+.buyModalContainer button:hover {
+    scale: 1.02;
+    border: 1px solid #83be6b;
+}
+
 @media all and (min-width:640px) {
     .imageModal img {
         width: 100%;

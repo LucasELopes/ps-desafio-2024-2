@@ -15,12 +15,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/books', [BookController::class, 'index']);
+Route::get('/books/{id}', [BookController::class, 'show']);
 Route::get('books/category/{id}', [CategoryController::class, 'categoryBooks']);
-Route::apiResource('/books', BookController::class);
 
 
 Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
     Route::apiResource('/categories', CategoryController::class)->except(['index']);
+    Route::apiResource('/books', BookController::class)->except(['index', 'show']);
     Route::apiResource('/users', UserController::class);
 });
 

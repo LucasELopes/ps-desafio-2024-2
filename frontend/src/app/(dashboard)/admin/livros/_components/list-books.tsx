@@ -63,7 +63,7 @@ export default async function ListBooks() {
                 </TableCell>
                 <TableCell>{book.title}</TableCell>
                 <TableCell>{book.categories.map((e) => (
-                  e.name + ','
+                  e.name
                 ))}
                 </TableCell>
                 <TableCell>{book.amount}</TableCell>

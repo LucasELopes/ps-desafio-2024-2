@@ -34,7 +34,7 @@ export function DialogInformationBook({
   useEffect(() => {
     const requestBook = async () => {
       const { response } = await api<bookType>('GET', `/books/${id}`)
-
+      console.log($id)
       if (response) {
         return response
       } else {

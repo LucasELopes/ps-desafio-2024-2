@@ -14,10 +14,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
 
-  const [names, setNames] = useState<string[]>([])
   const [categories, setCategories] = useState<categoryType[]>([])
 
   const[idCategory, setIdCategory] = useState<string|null>(null)
+  const[idSearchBook, setIdSearchBook] = useState<string>('')
 
   useEffect(() => {
     const requestData = async () => {
@@ -31,7 +31,7 @@ export default function RootLayout({
   }, [])
 
   return (
-      <SearchCategoryContext.Provider value={{idCategory, setIdCategory}}>
+      <SearchCategoryContext.Provider value={{idCategory, setIdCategory, idSearchBook, setIdSearchBook}}>
         <div className={style.default}>
               <SideBar title='Categorias' categories={categories}/>
               <Header/>

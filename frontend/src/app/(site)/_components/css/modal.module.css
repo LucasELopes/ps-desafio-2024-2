@@ -1,0 +1,116 @@
+.containerModal {
+    width: 100vw;
+    height: 100vh;
+
+    position: fixed;
+    overflow: hidden;
+
+    background-color: rgba(29, 29, 200, 0.344);
+    z-index: 90;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.categoryModal {
+    font-size: 1rem;
+    color: rgb(72, 114, 177);
+    text-wrap: nowrap;
+    position: absolute;
+    top: -12px;
+    background-color: rgb(243, 207, 152);
+    padding: 1px 4px;
+    font-weight: 600;
+    border-radius: 2px;
+    border-radius: 0.3rem;
+}
+
+.closeModal {
+    cursor: pointer;
+    width: 8%;
+    max-width: 30px;
+    position: absolute;
+    top: -10px;
+    right: -2px;
+}
+
+.containerModal dialog {
+    position: relative;
+    padding: 12px;
+    z-index: 95;
+    width: 90%;
+
+    border-radius: 1rem;
+}
+
+.infos {
+    margin: 2px;
+}
+
+.imageModal {
+    max-width: 240px;
+    margin: auto;
+    border-radius: 0.8rem;
+}
+
+.imageModal img {
+    width: 100%;
+    height: 100%;
+}
+
+.titleModal, .authorModal, .releaseModal {
+    font-weight: 550;
+    color: rgb(30, 80, 154);
+    margin-left: 15%;
+}
+
+.titleModalInfo, .authorModalInfo, .releaseModalInfo {
+    text-align: center;
+    font-weight: 450;
+    color: rgb(43, 108, 205);
+    margin-bottom: 2px;
+}
+
+.idModal {
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: -8px;
+    left: 45px;
+    background: white;
+    padding: 0 2px;
+    font-weight: 500;
+    border-radius: 0  0 0.7rem 0.7rem;
+    color: rgb(43, 108, 205);
+}
+
+@media all and (min-width:640px) {
+    .imageModal img {
+        width: 100%;
+        height: 100%;
+        border: 2px solid black
+    }
+
+    .containerModal dialog {
+        position: relative;
+        padding: 12px;
+        z-index: 95;
+        width: 60%;
+        max-width: 420px;
+    
+        border-radius: 1rem;
+    }
+
+    .idModal {
+        font-size: 0.8rem;
+        position: absolute;
+        bottom: -8px;
+        left: 21%;
+        background: white;
+        padding: 0 2px;
+        font-weight: 500;
+        border-radius: 0  0 0.7rem 0.7rem;
+        color: rgb(43, 108, 205);
+    }
+}

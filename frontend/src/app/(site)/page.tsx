@@ -9,11 +9,17 @@ import Loading from './_components/loading'
 import Card from './_components/card'
 import ListCard from './_components/listCard'
 import { useSeachCategoryContext } from './context/SearchCategoryContext'
+import Modal from './_components/modal'
+import { ModalContext } from './context/ModalContext'
 
 export default function Home() {
 
-  const [books, setBooks] = useState<bookType[] | undefined>()
+  const [books, setBooks] = useState<bookType[]>()
   const [loading, setLoading] = useState(true)
+
+  const [bookModal, setBookModal] = useState<bookType|null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
   const context = useSeachCategoryContext()
 
   useEffect(() =>{
@@ -31,16 +37,35 @@ export default function Home() {
       if(response) {
         setBooks(response)
       }
+
     }
 
-    if(!context?.idCategory) {
+    const showBook = async (name: string|number) => {
+      const {response} = await api<bookType[]>('GET', `/books/${name}`)
+
+      
+      if(response) {
+        setBooks(response)
+      }
+
+      console.log(books)
+    }
+
+    if(!context?.idCategory && !context?.idSearchBook) {
       resquestData().then(() => setLoading(false))
+      // alert('1')
     }
-    else {
+    else if(!context.idSearchBook && context.idCategory) {
       requestBookInCategory().then(() => setLoading(false))
+      // alert('2')
+    }
+    else if(context.idSearchBook && !context.idCategory) {
+      showBook(context.idSearchBook).then(() => setLoading(false))
+      // alert("3")
     }
 
-  },[context?.idCategory])
+    // alert(context?.idSearchBook)
+  },[context?.idCategory, context?.idSearchBook])
 
   if(loading ) {
     return (
@@ -49,7 +74,13 @@ export default function Home() {
   }
   else if(books) {
     return (
-      <ListCard books={books}/>
+      <ModalContext.Provider value={{isOpen, setIsOpen, bookModal, setBookModal}}>
+        <ListCard books={books}/>
+        {
+        isOpen && bookModal &&
+          <Modal book={bookModal}/>
+        }
+      </ModalContext.Provider>
     )
   }
   else if(!loading && !books) {
@@ -63,4 +94,7 @@ export default function Home() {
       </div>
     )
   }
+
+
+
 }

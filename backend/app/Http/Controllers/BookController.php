@@ -65,8 +65,15 @@ class BookController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $book = $this->book->findOrFail($id);
-        return response()->json(BookResource::make($book), Response::HTTP_FOUND);
+        $book = $this->book->where('id', $id)
+            ->orWhere('title','LIKE' ,"{$id}%")
+            ->get();
+
+        if(!$book) {
+            return response()->json(null, Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json(BookResource::collection($book), Response::HTTP_FOUND);
     }
 
     /**

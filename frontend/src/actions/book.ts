@@ -13,6 +13,24 @@ export async function createBook(form: FormData) {
     return JSON.stringify(res)
 }
 
-export async function updateBook(form: FormData) {}
+export async function updateBook(form: FormData) {
+  const res = await api('POST', `/books/${form.get('id')}`, {
+    data: form,
+  })
 
-export async function destroyBook(id: string) {}
+  if (!res.error) {
+    revalidatePath('/admin/usuarios')
+  }
+
+  return JSON.stringify(res)
+}
+
+export async function destroyBook(id: string) {
+  const res = await api('DELETE', `/books/${id}`)
+
+  if (!res.error) {
+    revalidatePath('/admin/livros')
+  }
+
+  return JSON.stringify(res)
+}

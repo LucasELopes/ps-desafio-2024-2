@@ -17,9 +17,11 @@ import { DialogUpdateBook } from './dialog-update-book'
 import { DialogBookDelete } from './dialog-delete-book'
 import { DialogInformationBook } from './dialog-information-book'
 import { DialogCreateBook } from './dialog-create-book'
+import { categoryType } from '@/types/category'
 
 export default async function ListBooks() {
-  const { response } =  await api<bookType[]>('GET', '/books') // requisicao para api
+  const { response } =  await api<bookType[]>('GET', '/books')
+  const resposta = await api<categoryType[]>('GET', '/categories')
 
   if (!response) {
     return (
@@ -30,6 +32,7 @@ export default async function ListBooks() {
   }
 
   const books: bookType[] = response
+  const categories: categoryType[] | undefined = resposta.response
 
   return (
     <>
@@ -70,7 +73,7 @@ export default async function ListBooks() {
                       <LuInfo />
                     </Button>
                   </DialogInformationBook>
-                  <DialogUpdateBook id={book.id}>
+                  <DialogUpdateBook id={book.id} categories={categories}>
                     <Button variant="secondary-inverse" size="icon">
                       <LuPen />
                     </Button>

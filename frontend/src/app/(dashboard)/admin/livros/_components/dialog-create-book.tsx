@@ -13,22 +13,42 @@ import { createBook } from '@/actions/book'
 import { filterFormData } from '@/services/filter-form-data'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
-import { ResponseErrorType } from '@/services/api'
+import { api, ResponseErrorType } from '@/services/api'
+import { categoryType } from '@/types/category'
+import { title } from 'process'
 
 interface DialogCreateBookProps {
   children: React.ReactNode
 }
 
 export function DialogCreateBook({ children }: DialogCreateBookProps) {
+
   const [open, setOpen] = useState<boolean>()
   const [error, setError] = useState<ResponseErrorType | null>(null)
+  const [category, setCategory] = useState<categoryType[] | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
     if (!open) {
       setError(null)
     }
-  }, [open])
+
+    const requestData = async () => {
+      const {response} = await api<categoryType[]>('GET', '/categories')
+
+      if(response) {
+        setCategory(response)
+      }
+      else {
+        toast:({
+          title: 'Categorias não encontradas!'
+        })
+        setOpen(false)
+      }
+    }
+
+    requestData()
+  }, [open, toast])
 
   const submit = async (form: FormData) => {
     const newForm = await filterFormData(form)
@@ -60,7 +80,7 @@ export function DialogCreateBook({ children }: DialogCreateBookProps) {
           </DialogDescription>
         </DialogHeader>
         <form action={submit}>
-          <FormFieldsBook error={error} />
+          {category && <FormFieldsBook error={error} categories={category}/>}
         </form>
       </DialogContent>
     </Dialog>

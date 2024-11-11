@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest\StoreCategoryRequest;
 use App\Http\Requests\CategoryRequest\UpdateCategoryRequest;
+use App\Http\Resources\BookResource;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
@@ -49,6 +50,12 @@ class CategoryController extends Controller
         $category = $this->category->findOrFail($id);
         return response()->json($category, Response::HTTP_OK);
 
+    }
+
+    public function categoryBooks($id) {
+        $categories = $this->category->find($id)->books()->orderBy("title","asc")->get();
+
+        return response()->json(BookResource::collection($categories), Response::HTTP_OK);
     }
 
     /**

@@ -10,9 +10,17 @@ import {
 import { DialogFooter } from '@/components/dialog'
 import { Input } from '@/components/input'
 import { Label } from '@/components/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/select'
 import { cn } from '@/lib/utils'
 import { ResponseErrorType } from '@/services/api'
 import { bookType } from '@/types/book'
+import { categoryType } from '@/types/category'
 import { useState } from 'react'
 import { useFormStatus } from 'react-dom'
 
@@ -20,15 +28,24 @@ interface FormFieldsBookProps {
   book?: bookType | null
   readOnly?: boolean
   error?: ResponseErrorType | null
+  categories?: categoryType[] | null
 }
 
 export default function FormFieldsBook({
   book,
   readOnly,
   error,
+  categories
 }: FormFieldsBookProps) {
   const { pending } = useFormStatus()
-  const [updateImage, setUpdateImage] = useState<string | undefined>()
+
+  const [updateImage, setUpdateImage] = useState<string | undefined>(
+    book?.image
+  )
+
+  const [selectCategories, setSelectCategories] = useState<string[] | undefined>(
+    book?.categories.map((e) => e.name)
+  )
 
   return (
     <>
@@ -71,7 +88,7 @@ export default function FormFieldsBook({
             name="release_date"
             id="release_date"
             placeholder="Data de lançamento"
-            defaultValue={book?.release_date}
+            defaultValue={book?.release_date.toLocaleString()}
             disabled={pending}
             readOnly={readOnly}
             error={error?.errors?.release_date}
@@ -81,7 +98,26 @@ export default function FormFieldsBook({
           <Label htmlFor="categories" required={!book}>
             Categoria(s)
           </Label>
-          <Input
+          <Select
+            disabled={pending || readOnly}
+            onValueChange={setSelectCategories}
+            value={selectCategories}
+          >
+          <SelectTrigger>
+            <SelectValue placeholder="Selecione a(s) categoria(s) do livro"/>
+          </SelectTrigger>
+          <SelectContent>
+            {categories?.map((category) => (
+              <SelectItem value={category.id} key={category.id}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+          </Select>
+
+          <Input name='category_id[]' type='hidden' value={selectCategories} readOnly/>
+
+          {/* <Input
             name="category_id[]"
             id="categories"
             placeholder="Insira a(s) categoria(s) do livro"
@@ -89,7 +125,7 @@ export default function FormFieldsBook({
             disabled={pending}
             readOnly={readOnly}
             error={error?.errors?.categories}
-          />
+          /> */}
         </FormField>
         <FormField>
           <Label htmlFor="amount" required={!book}>
@@ -100,7 +136,7 @@ export default function FormFieldsBook({
             name="amount"
             id="amount"
             placeholder="Insira a quantidade em estoque"
-            defaultValue={book?.amount}
+            defaultValue={book?.amount.toString()}
             disabled={pending}
             readOnly={readOnly}
             error={error?.errors?.amount}

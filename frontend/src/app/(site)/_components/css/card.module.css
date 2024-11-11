@@ -1,0 +1,55 @@
+.card {
+    width: 60%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    transition: all 200ms;
+    cursor: pointer;
+}
+
+.card:hover {
+    scale: 1.1;
+    z-index: 10;
+}
+
+.card img {
+    height: 328px;
+    height: 100%;
+    border-radius: 0.8rem;
+}
+
+.category {
+    font-size: 80%;
+    color: rgb(99, 89, 76);
+    text-wrap: nowrap;
+    position: absolute;
+    top: -12px;
+    background-color: rgb(243, 207, 152);
+    padding: 1px 4px;
+    font-weight: 600;
+    border-radius: 2px;
+    border-radius: 0.3rem;
+}
+
+@media all and (min-width:640px) {
+    .card {
+        width: 70%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+    }
+
+    .category {
+        font-size: 100%;
+    }
+}
+
+.title {
+    text-wrap: nowrap;
+    font-weight: 700;
+    text-align: center;
+    text-overflow: ellipsis;
+    width: 100%;
+}

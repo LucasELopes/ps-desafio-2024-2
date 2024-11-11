@@ -1,0 +1,9 @@
+.default {
+    background-color: #f1e4d5;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -31,7 +31,7 @@ export function DialogInformationCategory({
 
   useEffect(() => {
     const requestData = async () => {
-      const { response } = null // requisicao para api
+      const { response } = await api<categoryType>('GET', `/categories/${id}`)
 
       if (response) {
         setCategory(response)

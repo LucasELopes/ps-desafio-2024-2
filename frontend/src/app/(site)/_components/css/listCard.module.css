@@ -1,0 +1,36 @@
+.listCard {
+    width: 100%;
+}
+
+.listCardChild {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0 15%;
+    margin-bottom: 20px;
+}
+
+@media (min-width:640px) and (max-width: 1019px) {
+    .listCardChild {
+        grid-template-columns: repeat(3, 20%);
+    }
+}
+
+@media all and (min-width:1020px) {
+    .listCard {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+    }
+    .listCardChild {
+        display: grid;
+        grid-template-columns: repeat(5, 260px);
+        gap: 10px;
+        max-width: 1366px;
+        width: auto;
+        margin-left: 220px;
+    }
+}
+
+

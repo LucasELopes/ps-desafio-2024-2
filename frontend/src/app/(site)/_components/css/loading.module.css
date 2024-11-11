@@ -1,0 +1,30 @@
+
+@keyframes loading {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    height: 100vh;
+    width: 110%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading img {
+    width: 40px;
+    animation: loading 1000ms linear infinite;
+}
+
+@media all and (min-width:640px) {
+    .loading img {
+        width: 3%;
+        animation: loading 1000ms linear infinite;
+    }
+}
+

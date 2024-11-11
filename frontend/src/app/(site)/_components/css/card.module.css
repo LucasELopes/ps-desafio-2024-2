@@ -17,6 +17,7 @@
     height: 328px;
     height: 100%;
     border-radius: 0.8rem;
+    box-shadow: 3px 3px 10px black;
 }
 
 .category {
@@ -35,6 +36,7 @@
 @media all and (min-width:640px) {
     .card {
         width: 70%;
+        height: 90%;
         position: relative;
         display: flex;
         flex-direction: column;
